@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pattukekuthu</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-mesh">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div id="app">
+        <!-- Desktop Sidebar -->
+        <aside id="desktop-sidebar">
+            <div class="sidebar-logo">
+                <i data-lucide="disc"></i>
+                <span>Pattu Kekuthu</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-target="home">
+                    <i data-lucide="home"></i> <span>Home</span>
+                </a>
+                <a href="#" class="nav-item" data-target="search">
+                    <i data-lucide="search"></i> <span>Search</span>
+                </a>
+                <a href="#" class="nav-item" data-target="library">
+                    <i data-lucide="library"></i> <span>Library</span>
+                </a>
+                <a href="#" class="nav-item" data-target="profile">
+                    <i data-lucide="user"></i> <span>Profile</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="content-area">
+            <!-- Home View -->
+            <section id="view-home" class="view active">
+                <header class="mobile-header">
+                    <h2>Home</h2>
+                </header>
+                <div class="content-padding">
+                    <div class="section-title">Recently Played</div>
+                    <div class="horizontal-scroll" id="home-recent">
+                        <div class="empty-state">No recently played songs.</div>
+                    </div>
+                    <div class="section-title" style="margin-top: 32px;">Your Feed</div>
+                    <div class="feed-list" id="home-feed">
+                        <div class="empty-state">Import songs to see them here.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search View -->
+            <section id="view-search" class="view">
+                <header class="mobile-header">
+                    <h2>Search</h2>
+                </header>
+                <div class="content-padding">
+                    <div class="search-bar">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Search your library...">
+                    </div>
+                    <div class="search-results" id="search-results">
+                        <div class="empty-state"><i data-lucide="search" style="opacity: 0.5; margin-bottom: 12px; width: 48px; height: 48px;"></i><br>Find your favorite local tracks.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Library View -->
+            <section id="view-library" class="view">
+                <header class="mobile-header">
+                    <h2>Library</h2>
+                </header>
+                <div class="content-padding">
+                    <div class="library-header">
+                        <label for="file-upload" class="upload-btn primary-btn">
+                            <i data-lucide="folder-plus"></i> Import Local Music
+                        </label>
+                        <input type="file" id="file-upload" accept="audio/*" multiple hidden>
+                    </div>
+                    <div class="library-grid" id="library-list">
+                        <div class="empty-state">Your library is empty.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile View -->
+            <section id="view-profile" class="view">
+                <header class="mobile-header">
+                    <h2>Profile</h2>
+                </header>
+                <div class="content-padding">
+                    <div class="profile-header glass-card">
+                        <label for="profile-pic-upload" class="profile-avatar" id="profile-avatar-container" style="cursor: pointer; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <i data-lucide="user" id="default-avatar-icon"></i>
+                            <div class="avatar-hover-overlay" style="position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s;">
+                                <i data-lucide="camera" style="width: 24px; height: 24px; color: white;"></i>
+                            </div>
+                        </label>
+                        <input type="file" id="profile-pic-upload" accept="image/*" hidden>
+                        <h2 class="profile-name">Local User</h2>
+                        <p class="profile-stats"><span id="stat-songs">0</span> Songs in Library</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Mini Player -->
+        <div id="mini-player" class="hidden glass-card">
+            <div class="mini-player-content">
+                <div class="mini-art">
+                    <i data-lucide="music"></i>
+                </div>
+                <div class="mini-info">
+                    <div class="mini-title" id="mini-title">No song playing</div>
+                    <div class="mini-artist" id="mini-artist">Unknown</div>
+                </div>
+                <div class="mini-controls" id="mini-controls-container" style="gap: 8px;">
+                    <button id="mini-repeat-btn" class="icon-btn" style="color: var(--text-secondary);"><i data-lucide="repeat" style="width: 18px; height: 18px;"></i></button>
+                    <button id="mini-prev-btn" class="icon-btn" style="color: var(--text-secondary);"><i data-lucide="skip-back" style="width: 20px; height: 20px;"></i></button>
+                    <button id="mini-play-btn" class="icon-btn" style="color: white; margin: 0 4px;"><i data-lucide="play" id="mini-play-icon"></i></button>
+                    <button id="mini-next-btn" class="icon-btn" style="color: var(--text-secondary);"><i data-lucide="skip-forward" style="width: 20px; height: 20px;"></i></button>
+                </div>
+            </div>
+            <div class="mini-progress">
+                <div class="mini-progress-bar" id="mini-progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Mobile Bottom Navigation -->
+        <nav id="bottom-nav" class="glass-nav">
+            <a href="#" class="nav-item active" data-target="home">
+                <i data-lucide="home"></i>
+            </a>
+            <a href="#" class="nav-item" data-target="search">
+                <i data-lucide="search"></i>
+            </a>
+            <a href="#" class="nav-item" data-target="library">
+                <i data-lucide="library"></i>
+            </a>
+            <a href="#" class="nav-item" data-target="profile">
+                <i data-lucide="user"></i>
+            </a>
+        </nav>
+
+        <!-- Full Player Overlay -->
+        <div id="full-player" class="full-player-overlay hidden">
+            <div class="full-player-bg-blur"></div>
+            <div class="player-content-wrapper">
+                <div class="player-header">
+                    <button id="close-player-btn" class="icon-btn transparent-btn"><i data-lucide="chevron-down"></i></button>
+                    <span class="now-playing-text">Now Playing</span>
+                    <div style="position: relative;">
+                        <button id="btn-more" class="icon-btn transparent-btn"><i data-lucide="more-horizontal"></i></button>
+                        <div id="more-menu" class="dropdown-menu hidden">
+                            <button id="menu-song-info" class="menu-item"><i data-lucide="info"></i> Song Info</button>
+                            <button id="menu-edit-tag" class="menu-item"><i data-lucide="edit-3"></i> Edit Tag</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="player-art-container">
+                    <div class="player-art" id="player-art-visual">
+                        <i data-lucide="music" class="large-icon"></i>
+                        <div class="wave-container hidden" id="wave-anim">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="player-info-section">
+                    <div class="player-info">
+                        <div class="info-text">
+                            <h2 id="player-title">Song Title</h2>
+                            <p id="player-artist">Unknown Artist</p>
+                        </div>
+                        <button id="like-btn" class="icon-btn transparent-btn"><i data-lucide="heart" id="like-icon"></i></button>
+                    </div>
+
+                    <div class="player-progress">
+                        <input type="range" id="progress-slider" min="0" max="100" value="0">
+                        <div class="time-container">
+                            <span id="time-current">0:00</span>
+                            <span id="time-total">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="player-controls">
+                        <button id="btn-shuffle" class="icon-btn transparent-btn"><i data-lucide="shuffle"></i></button>
+                        <button id="btn-prev" class="icon-btn transparent-btn"><i data-lucide="skip-back"></i></button>
+                        <button id="btn-play" class="play-pause-btn"><i data-lucide="play" id="main-play-icon"></i></button>
+                        <button id="btn-next" class="icon-btn transparent-btn"><i data-lucide="skip-forward"></i></button>
+                        <button id="btn-repeat" class="icon-btn transparent-btn"><i data-lucide="repeat"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Tag Modal -->
+    <div id="edit-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-card">
+            <h3 class="modal-title">Edit Song Info</h3>
+            <div class="input-group">
+                <label>Title</label>
+                <input type="text" id="edit-title-input" class="glass-input" placeholder="Song Title">
+            </div>
+            <div class="input-group">
+                <label>Artist</label>
+                <input type="text" id="edit-artist-input" class="glass-input" placeholder="Artist Name">
+            </div>
+            <div class="input-group">
+                <label>Custom Cover (Optional)</label>
+                <label for="edit-cover-input" class="upload-btn primary-btn" style="width: 100%; text-align: center;">
+                    <i data-lucide="image"></i> Choose Image
+                </label>
+                <input type="file" id="edit-cover-input" accept="image/*" hidden>
+                <div id="edit-cover-preview" class="cover-preview hidden"></div>
+            </div>
+            <div class="modal-actions">
+                <button id="close-modal-btn" class="secondary-btn">Cancel</button>
+                <button id="save-edit-btn" class="primary-btn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <audio id="audio-element"></audio>
+    <script src="app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
